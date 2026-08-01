@@ -13,6 +13,11 @@ const PORT = process.env.PORT || 3000;
 // Statik dosyaları sun
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Tüm HTTP istekleri için index.html gönder (SPA Fallback)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 // Türkçe Sözlük Verisi Yükleme
 let dictionary = {
   names: [],
