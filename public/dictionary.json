@@ -1,0 +1,67 @@
+{
+  "cities": [
+    "Adana", "Adıyaman", "Afyonkarahisar", "Ağrı", "Amasya", "Ankara", "Antalya", "Artvin", "Aydın", "Balıkesir",
+    "Bilecik", "Bingöl", "Bitlis", "Bolu", "Burdur", "Bursa", "Çanakkale", "Çankırı", "Çorum", "Denizli",
+    "Diyarbakır", "Edirne", "Elazığ", "Erzincan", "Erzurum", "Eskişehir", "Gaziantep", "Giresun", "Gümüşhane", "Hakkari",
+    "Hatay", "Isparta", "Mersin", "İstanbul", "İzmir", "Kars", "Kastamonu", "Kayseri", "Kırklareli", "Kırşehir",
+    "Kocaeli", "Konya", "Kütahya", "Malatya", "Manisa", "Kahramanmaraş", "Mardin", "Muğla", "Muş", "Nevşehir",
+    "Niğde", "Ordu", "Rize", "Sakarya", "Samsun", "Siirt", "Sinop", "Sivas", "Tekirdağ", "Tokat",
+    "Trabzon", "Tunceli", "Şanlıurfa", "Uşak", "Van", "Yozgat", "Zonguldak", "Aksaray", "Bayburt", "Karaman",
+    "Kırıkkale", "Batman", "Şırnak", "Bartın", "Ardahan", "Iğdır", "Yalova", "Karabük", "Kilis", "Osmaniye", "Düzce"
+  ],
+  "countries": [
+    "Almanya", "Amerika", "Arjantin", "Arnavutluk", "Avustralya", "Avusturya", "Azerbaycan", "Bahreyn", "Belçika", "Brezilya",
+    "Bulgaristan", "Cezayir", "Cibuti", "Çekya", "Çin", "Danimarka", "Ekvador", "Endonezya", "Ermenistan", "Estonya",
+    "Fas", "Fildişi Sahili", "Filipinler", "Finlandiya", "Fransa", "Gana", "Güney Kore", "Gürcistan", "Hindistan", "Hollanda",
+    "Irak", "İran", "İrlanda", "İspanya", "İsrail", "İsveç", "İsviçre", "İtalya", "Japonya", "Kamboçya",
+    "Kamerun", "Kanada", "Katar", "Kazakistan", "Kenya", "Kıbrıs", "Kolombiya", "Kuveyt", "Küba", "Lübnan",
+    "Lüksemburg", "Macaristan", "Meksika", "Mısır", "Moğolistan", "Moldova", "Nijerya", "Norveç", "Özbekistan", "Pakistan",
+    "Panama", "Paraguay", "Peru", "Polonya", "Portekiz", "Romanya", "Rusya", "Sırbistan", "Somali", "Sudan",
+    "Suriye", "Suudi Arabistan", "Şili", "Tacikistan", "Tayland", "Tunus", "Türkiye", "Türkmenistan", "Ukrayna", "Uruguay",
+    "Ürdün", "Vaziyet", "Venezuela", "Vietnam", "Yemen", "Yunanistan", "Zambiya", "Zimbabve"
+  ],
+  "names": [
+    "Ahmet", "Ali", "Ayşe", "Alper", "Arda", "Aslı", "Aylin", "Bora", "Burak", "Büşra",
+    "Bahar", "Beren", "Can", "Cem", "Ceren", "Ceyda", "Çiğdem", "Çınar", "Deniz", "Derya",
+    "Defne", "Doğukan", "Ece", "Efe", "Emre", "Elif", "Enes", "Eren", "Esra", "Eylül",
+    "Fatih", "Fatma", "Ferhat", "Filiz", "Furkan", "Gül", "Gökhan", "Gamze", "Gizem", "Görkem",
+    "Hakan", "Hasan", "Hüseyin", "Hande", "Hatice", "Irmak", "Işıl", "İbrahim", "İrem", "İsmail",
+    "Kaan", "Kerem", "Kübra", "Leyla", "Levent", "Mehmet", "Mustafa", "Merve", "Murat", "Melisa",
+    "Nalan", "Nazlı", "Nihat", "Nur", "Oğuz", "Oğuzhan", "Okan", "Orhan", "Ömer", "Özge",
+    "Özgür", "Pınar", "Pelin", "Ramazan", "Recep", "Rüzgar", "Seda", "Selim", "Selin", "Sinan",
+    "Şeyma", "Şule", "Taha", "Tarik", "Tuğba", "Uğur", "Umut", "Ümit", "Volkan", "Yağmur",
+    "Yasin", "Yavuz", "Yusuf", "Zeynep", "Zehra"
+  ],
+  "animals": [
+    "Arı", "Aslan", "At", "Ayı", "Akrep", "Ahtapot", "Atmaca", "Balık", "Bıldırcın", "Boğa",
+    "Ceylan", "Cüce", "Çita", "Çekirge", "Çakal", "Deve", "Domuz", "Doğan", "Ejderha", "Elk",
+    "Eşek", "Fare", "Flamingo", "Fok", "Fil", "Gelincik", "Geyik", "Güvercin", "Gözlüklü Yılan", "Hamster",
+    "Hindistan Cevizi Yengeci", "Horoz", "Irmak Yunusu", "İnek", "İpekböceği", "Jaguar", "Kanguru", "Kaplan", "Kaplumbaşa", "Karınca",
+    "Kedi", "Köpek", "Koyun", "Kurt", "Kuğu", "Kunduz", "Kuş", "Leopar", "Leylek", "Lama",
+    "Maymun", "Marmot", "Orangutan", "Ördek", "Örümcek", "Papağan", "Panda", "Penguen", "Puma", "Raccoon",
+    "Sazan", "Salyangoz", "Sansar", "Serçe", "Sinek", "Sincap", "Şahin", "Şempanze", "Tavşan", "Tavuk",
+    "Timsah", "Tilki", "Uğur Böceği", "Üveyik", "Vatoz", "Vaşak", "Yılan", "Yunus", "Zürafa", "Zebra"
+  ],
+  "plants": [
+    "Açelya", "Adaçayı", "Ananas", "Armut", "Ayçiçeği", "Badem", "Biber", "Böğürtlen", "Buğday", "Ceviz",
+    "Çilek", "Çam", "Çınar", "Domates", "Dereotu", "Elma", "Enginar", "Erik", "Fesleğen", "Fındık",
+    "Gül", "Havuç", "Hıyar", "Ispanak", "İncir", "İhlamur", "Karpuz", "Kavun", "Kayısı", "Kiraz",
+    "Kivi", "Lale", "Limon", "Maydanoz", "Mantar", "Mutfak", "Nane", "Nar", "Orkide", "Papatya",
+    "Patates", "Portakal", "Roka", "Salatalık", "Sarımsak", "Soğan", "Şeftali", "Tarçın", "Tütün", "Üzüm",
+    "Vişne", "Yasemin", "Zeytin"
+  ],
+  "items": [
+    "Ayna", "Anahtar", "Araba", "Ayakkabı", "Bıçak", "Bardak", "Bilgisayar", "Buzdolabı", "Cetvel", "Cüzdan",
+    "Çanta", "Çatal", "Çekiç", "Çorap", "Defter", "Dolap", "Düğme", "Ediven", "Elbise", "Fırça",
+    "Fırın", "Fener", "Gözlük", "Gömlek", "Halı", "Havlular", "Işık", "İğne", "İplik", "Jilet",
+    "Kalem", "Koltuk", "Kaşık", "Kitap", "Kilit", "Lamba", "Masa", "Makas", "Minder", "Nokta",
+    "Otomobil", "Önlük", "Paket", "Pencere", "Radyo", "Ruj", "Saat", "Sandalye", "Süpürge", "Şapka",
+    "Şemsiye", "Şişe", "Tarak", "Telefon", "Televizyon", "Uydu", "Ütü", "Vazo", "Yatak", "Yastık", "Zarf"
+  ],
+  "celebrities": [
+    "Acun Ilıcalı", "Ajda Pekkan", "Aleyna Tilki", "Arda Güler", "Barış Manço", "Beren Saat", "Beyazıt Öztürk", "Cem Yılmaz", "Cüneyt Arkın", "Çetin Tekindor",
+    "Demet Akalın", "Edis", "Engin Altan Düzyatan", "Fatih Terim", "Fazıl Say", "Gülşen", "Haluk Bilginer", "Hülya Avşar", "İbrahim Tatlıses", "İlber Ortaylı",
+    "Kemal Sunal", "Kıvanç Tatlıtuğ", "Kenan İmirzalıoğlu", "Müslüm Gürses", "Naim Süleymanoğlu", "Orhan Gencebay", "Orhan Pamuk", "Öz计算机", "Rafa Silva", "Sertab Erener",
+    "Sezen Aksu", "Şener Şen", "Tarkan", "Tuncel Kurtiz", "Yılmaz Erdoğan", "Zeki Müren"
+  ]
+}

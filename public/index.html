@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>İsim Şehir Online - Çok Oyunculu Kelime Oyunu</title>
+  <meta name="description" content="Arkadaşlarınızla dilediğiniz yerde ve cihazda canlı oynayabileceğiniz modern isim şehir oyunu.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Socket.io client script -->
+  <script src="/socket.io/socket.io.js"></script>
+
+  <!-- Canvas Confetti Library for Podium Victory -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Arka Plan Görsel & Neon Efektleri -->
+  <div class="bg-blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <!-- Üst Araç Çubuğu (Ses, Oda Kodu, Davet) -->
+  <header class="app-header">
+    <div class="brand">
+      <span class="logo-icon">✍️</span>
+      <span class="logo-text">İsim<span>Şehir</span></span>
+    </div>
+    
+    <div class="header-actions">
+      <div id="room-code-badge" class="room-badge hidden">
+        <span>Oda: <strong id="header-room-id">-----</strong></span>
+        <button id="copy-link-btn" title="Oda Bağlantısını Kopyala">📋 Davet Et</button>
+      </div>
+
+      <button id="audio-toggle-btn" class="icon-btn" title="Sesi Aç/Kapat">
+        🔊
+      </button>
+    </div>
+  </header>
+
+  <!-- Bildirim & Toast Kutusu -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <main class="main-container">
+    
+    <!-- 1. GİRİŞ & ODA KATILIM EKRANI -->
+    <section id="login-screen" class="card-screen active">
+      <div class="hero-section">
+        <h2>Arkadaşlarınla Canlı Oyna!</h2>
+        <p>Hemen bir kullanıcı adı seç, oda oluştur veya arkadaşının odasına katıl.</p>
+      </div>
+
+      <form id="login-form" onsubmit="return false;">
+        <!-- Avatar Seçimi -->
+        <div class="form-group">
+          <label>Avatarını Seç:</label>
+          <div class="avatar-picker" id="avatar-picker">
+            <span class="avatar-option selected" data-avatar="😎">😎</span>
+            <span class="avatar-option" data-avatar="🦊">🦊</span>
+            <span class="avatar-option" data-avatar="🚀">🚀</span>
+            <span class="avatar-option" data-avatar="🦁">🦁</span>
+            <span class="avatar-option" data-avatar="👑">👑</span>
+            <span class="avatar-option" data-avatar="🐼">🐼</span>
+            <span class="avatar-option" data-avatar="🦄">🦄</span>
+            <span class="avatar-option" data-avatar="🔥">🔥</span>
+          </div>
+        </div>
+
+        <!-- Kullanıcı Adı Girişi -->
+        <div class="form-group">
+          <label for="username-input">Kullanıcı Adın:</label>
+          <input type="text" id="username-input" placeholder="Örn: Ahmet10" maxlength="15" autocomplete="off" required>
+          <small class="hint-text">* Odadaki diğer kişilerden farklı olmalıdır.</small>
+        </div>
+
+        <!-- Sekmeli Butonlar (Oda Oluştur / Odaya Katıl) -->
+        <div class="action-tabs">
+          <button type="button" id="tab-create-btn" class="tab-btn active">Yeni Oda Oluştur</button>
+          <button type="button" id="tab-join-btn" class="tab-btn">Odaya Katıl</button>
+        </div>
+
+        <!-- Oda Oluştur Paneli -->
+        <div id="panel-create" class="tab-panel active">
+          <div class="form-group">
+            <label for="round-time-select">Tur Süresi (Saniye):</label>
+            <select id="round-time-select">
+              <option value="45">45 Saniye (Hızlı)</option>
+              <option value="60" selected>60 Saniye (Standart)</option>
+              <option value="90">90 Saniye (Rahat)</option>
+              <option value="120">120 Saniye (Uzun)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="total-rounds-select">Tur Sayısı:</label>
+            <select id="total-rounds-select">
+              <option value="3">3 Tur</option>
+              <option value="5" selected>5 Tur</option>
+              <option value="7">7 Tur</option>
+              <option value="10">10 Tur</option>
+            </select>
+          </div>
+
+          <button type="button" id="create-room-btn" class="btn btn-primary btn-block">
+            🚀 Oda Oluştur ve Gir
+          </button>
+        </div>
+
+        <!-- Odaya Katıl Paneli -->
+        <div id="panel-join" class="tab-panel">
+          <div class="form-group">
+            <label for="room-code-input">Oda Kodu:</label>
+            <input type="text" id="room-code-input" placeholder="Örn: X7K9P" maxlength="6" autocomplete="off">
+          </div>
+
+          <button type="button" id="join-room-btn" class="btn btn-secondary btn-block">
+            🎮 Odaya Katıl
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- 2. LOBİ EKRANI -->
+    <section id="lobby-screen" class="card-screen">
+      <div class="lobby-header">
+        <div class="lobby-title">
+          <h2>Oyun Lobisi</h2>
+          <span id="lobby-room-code-display" class="code-pill">Oda: -----</span>
+        </div>
+        <p class="lobby-subtitle">Tüm arkadaşların girdiğinde ev sahibi oyunu başlatabilir.</p>
+      </div>
+
+      <!-- Oyuncular Listesi Grid -->
+      <div class="players-container">
+        <h3>Katılan Oyuncular (<span id="player-count">0</span>)</h3>
+        <div id="lobby-players-grid" class="players-grid">
+          <!-- Dinamik olarak yüklenecek -->
+        </div>
+      </div>
+
+      <!-- Host Kontrol Paneli -->
+      <div id="host-controls" class="host-controls hidden">
+        <div class="categories-selector">
+          <label>Oynanacak Kategoriler:</label>
+          <div class="category-chips" id="category-chips">
+            <span class="chip active" data-cat="İsim">İsim</span>
+            <span class="chip active" data-cat="Şehir">Şehir</span>
+            <span class="chip active" data-cat="Ülke">Ülke</span>
+            <span class="chip active" data-cat="Hayvan">Hayvan</span>
+            <span class="chip active" data-cat="Bitki">Bitki</span>
+            <span class="chip active" data-cat="Eşya">Eşya</span>
+            <span class="chip active" data-cat="Ünlü">Ünlü</span>
+            <span class="chip" data-cat="Meslek">Meslek</span>
+          </div>
+        </div>
+
+        <button id="start-game-btn" class="btn btn-success btn-block btn-lg glow">
+          🔥 Oyunu Başlat!
+        </button>
+      </div>
+
+      <div id="non-host-waiting" class="waiting-box">
+        <div class="spinner"></div>
+        <p>Oda kurucusunun oyunu başlatması bekleniyor...</p>
+      </div>
+    </section>
+
+    <!-- 3. OYUN EKRANI -->
+    <section id="game-screen" class="card-screen">
+      <!-- Üst Bilgi Çubuğu (Harf, Tur, Geri Sayım) -->
+      <div class="game-top-bar">
+        <div class="letter-box">
+          <span class="letter-label">GELEN HARF</span>
+          <span id="active-letter" class="current-letter">A</span>
+        </div>
+
+        <div class="round-info">
+          <span id="round-indicator">Tur 1 / 5</span>
+        </div>
+
+        <div class="timer-box" id="timer-box">
+          <svg class="timer-svg" viewBox="0 0 100 100">
+            <circle class="timer-bg" cx="50" cy="50" r="45"></circle>
+            <circle id="timer-progress" class="timer-bar" cx="50" cy="50" r="45"></circle>
+          </svg>
+          <span id="timer-seconds">60</span>
+        </div>
+      </div>
+
+      <!-- STOP Uyarı Alanı (STOP Basıldığında Gösterilir) -->
+      <div id="stop-banner" class="stop-banner hidden">
+        <span class="stop-icon">🛑</span>
+        <div class="stop-text">
+          <strong id="stop-player-name">Oyuncu</strong> STOP dedi!
+          <span>Son <b id="stop-countdown-sec">5</b> saniye!</span>
+        </div>
+      </div>
+
+      <!-- Kategori Input Listesi (Mobil ve Klavye Dostu) -->
+      <form id="game-form" class="categories-form" onsubmit="return false;">
+        <div id="categories-inputs-container" class="inputs-grid">
+          <!-- JS ile Dinamik Oluşturulur -->
+        </div>
+
+        <!-- BÜYÜK "İSİM ŞEHİR STOP!" BUTONU -->
+        <button type="button" id="stop-game-btn" class="btn btn-danger btn-block btn-stop pulse-btn">
+          ✋ İSİM ŞEHİR STOP!
+        </button>
+      </form>
+    </section>
+
+    <!-- 4. OYLAMA VE DEĞERLENDİRME EKRANI -->
+    <section id="voting-screen" class="card-screen">
+      <div class="voting-header">
+        <h2>Cevap Değerlendirme & Oylama</h2>
+        <p>Herkesin yazdığı kelimeleri inceleyin. Hatalı kelimeleri oylayarak reddedebilirsiniz!</p>
+      </div>
+
+      <!-- Harf ve Kategori Sekmeleri -->
+      <div id="voting-categories-tabs" class="voting-tabs">
+        <!-- JS ile oluşturulur -->
+      </div>
+
+      <!-- Oylama Kartları Konteyneri -->
+      <div id="voting-cards-container" class="voting-cards">
+        <!-- JS ile cevaplar yüklenecek -->
+      </div>
+
+      <div class="voting-actions">
+        <button id="finish-voting-btn" class="btn btn-primary btn-block hidden">
+          ✅ Oylamayı Tamamla & Puanları Hesapla
+        </button>
+        <div id="voting-waiting-msg" class="waiting-box">
+          <p>Tüm oyuncuların oylarını vermesi bekleniyor...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. TUR SKOR TABLOSU EKRANI -->
+    <section id="scoreboard-screen" class="card-screen">
+      <div class="scoreboard-header">
+        <h2>Tur Sonuçları (<span id="result-letter">A</span> Harfi)</h2>
+        <p id="result-round-text">Tur 1 Tamamlandı!</p>
+      </div>
+
+      <!-- Liderlik Tablosu Listesi -->
+      <div class="leaderboard-container">
+        <h3>Güncel Sıralama</h3>
+        <div id="leaderboard-list" class="leaderboard-list">
+          <!-- JS ile doldurulur -->
+        </div>
+      </div>
+
+      <!-- Detaylı Puan İnceleme Accordion -->
+      <div class="score-details-section">
+        <h3>Kategori Bazlı Detaylar</h3>
+        <div id="score-details-accordion" class="accordion-container">
+          <!-- JS ile doldurulur -->
+        </div>
+      </div>
+
+      <div class="scoreboard-actions">
+        <button id="next-round-btn" class="btn btn-success btn-block btn-lg hidden">
+          ➡️ Sonraki Tura Geç
+        </button>
+        <p id="waiting-host-next" class="hint-text align-center">Oda kurucusunun sonraki turu başlatması bekleniyor...</p>
+      </div>
+    </section>
+
+    <!-- 6. OYUN SONU (ŞAMPİYONLUK PODYUMU) -->
+    <section id="gameover-screen" class="card-screen">
+      <div class="gameover-header">
+        <h2>🏆 OYUN BİTTİ! 🏆</h2>
+        <p>Şampiyonlar Belli Oldu!</p>
+      </div>
+
+      <!-- Podyum Derece Alanı -->
+      <div id="podium-container" class="podium-container">
+        <div class="podium-step step-2">
+          <div id="podium-avatar-2" class="podium-avatar">🥈</div>
+          <div id="podium-name-2" class="podium-name">---</div>
+          <div id="podium-score-2" class="podium-score">0 Puan</div>
+          <div class="step-bar">2</div>
+        </div>
+
+        <div class="podium-step step-1">
+          <div class="crown">👑</div>
+          <div id="podium-avatar-1" class="podium-avatar">🥇</div>
+          <div id="podium-name-1" class="podium-name">---</div>
+          <div id="podium-score-1" class="podium-score">0 Puan</div>
+          <div class="step-bar">1</div>
+        </div>
+
+        <div class="podium-step step-3">
+          <div id="podium-avatar-3" class="podium-avatar">🥉</div>
+          <div id="podium-name-3" class="podium-name">---</div>
+          <div id="podium-score-3" class="podium-score">0 Puan</div>
+          <div class="step-bar">3</div>
+        </div>
+      </div>
+
+      <!-- Tüm Oyuncuların Sıralaması -->
+      <div class="final-results-list" id="final-results-list">
+        <!-- JS ile doldurulur -->
+      </div>
+
+      <div class="gameover-actions">
+        <button id="restart-game-btn" class="btn btn-primary btn-block btn-lg hidden">
+          🔄 Yeniden Oyna
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="app-footer">
+    <p>İsim Şehir Multiplayer &copy; 2026 - Herkes İçin Web & Mobil Uyumlu</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
