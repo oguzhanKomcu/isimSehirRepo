@@ -707,8 +707,9 @@ input[type="text"]:focus, select:focus {
   display: flex;
   gap: 0.5rem;
   overflow-x: auto;
-  padding-bottom: 0.5rem;
+  padding-bottom: 0.6rem;
   scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
 }
 
 .voting-tab {
@@ -720,6 +721,7 @@ input[type="text"]:focus, select:focus {
   font-weight: 600;
   cursor: pointer;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .voting-tab.active {
@@ -738,32 +740,42 @@ input[type="text"]:focus, select:focus {
   background: rgba(15, 23, 42, 0.5);
   border: 1px solid var(--bg-card-border);
   border-radius: var(--radius-md);
-  padding: 1rem;
+  padding: 0.9rem 1rem;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 0.75rem;
+  width: 100%;
+  overflow: hidden;
 }
 
 .vote-player-info {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.5rem;
+  flex: 1 1 60%;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .vote-word {
   font-weight: 800;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   color: #fff;
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 .vote-buttons {
   display: flex;
   gap: 0.5rem;
+  flex-shrink: 0;
 }
 
 .vote-btn {
-  padding: 0.4rem 0.8rem;
+  padding: 0.45rem 0.85rem;
   border-radius: var(--radius-md);
   border: 1px solid var(--bg-card-border);
   background: rgba(255, 255, 255, 0.08);
@@ -771,6 +783,10 @@ input[type="text"]:focus, select:focus {
   font-size: 0.85rem;
   cursor: pointer;
   transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
 }
 
 .vote-btn.approve.selected {
@@ -928,4 +944,113 @@ input[type="text"]:focus, select:focus {
   padding: 1rem;
   font-size: 0.8rem;
   color: var(--text-dim);
+}
+
+/* Mobil Ekran Özelleştirmeleri (Mobile-First Optimization) */
+@media (max-width: 600px) {
+  .app-header {
+    padding: 0.6rem 0.75rem;
+  }
+
+  .brand {
+    font-size: 1.15rem;
+    gap: 0.3rem;
+  }
+
+  .header-actions {
+    gap: 0.4rem;
+  }
+
+  .room-badge {
+    padding: 0.25rem 0.55rem;
+    font-size: 0.75rem;
+    gap: 0.35rem;
+  }
+
+  .room-badge button {
+    padding: 0.2rem 0.45rem;
+    font-size: 0.7rem;
+  }
+
+  .icon-btn {
+    width: 34px;
+    height: 34px;
+    font-size: 0.95rem;
+  }
+
+  .main-container {
+    padding: 0.6rem 0.4rem;
+  }
+
+  .card-screen {
+    padding: 1.2rem 0.85rem;
+    gap: 1rem;
+    border-radius: var(--radius-md);
+  }
+
+  .hero-section h2 {
+    font-size: 1.4rem;
+  }
+
+  /* Oylama Kartı Mobil Düzeni (Mobil Ekranlarda Tam Sıra & Butonlar Alt Alta/Yan Yana) */
+  .vote-card {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0.8rem 0.9rem;
+    gap: 0.6rem;
+  }
+
+  .vote-player-info {
+    width: 100%;
+    flex: 1 1 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .vote-buttons {
+    width: 100%;
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .vote-btn {
+    flex: 1;
+    text-align: center;
+    padding: 0.55rem 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  /* Oyun Üst Çubuğu Mobil Uyum */
+  .game-top-bar {
+    padding: 0.6rem 0.8rem;
+  }
+
+  .current-letter {
+    font-size: 1.8rem;
+  }
+
+  .round-info {
+    font-size: 0.85rem;
+    padding: 0.3rem 0.65rem;
+  }
+
+  .timer-box {
+    width: 40px;
+    height: 40px;
+  }
+
+  #timer-seconds {
+    font-size: 0.85rem;
+  }
+
+  /* Podyum Uyum */
+  .podium-container {
+    height: 180px;
+    gap: 0.4rem;
+  }
+
+  .step-1 .step-bar { height: 100px; }
+  .step-2 .step-bar { height: 75px; }
+  .step-3 .step-bar { height: 50px; }
 }
